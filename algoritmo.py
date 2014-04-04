@@ -92,14 +92,14 @@ class Car(threading.Thread):
     def unload(self):
         print("GTFO")
 
-size = int(raw_input("Capacidade do carro: "))
+size = int(input("Capacidade do carro: "))
 car = Car()
 car.daemon = True
 car.start()
 id = 1
 
 while True:
-    raw_input("")
+    input("")
     x = Passenger(id)
     x.daemon = True
     x.start()
