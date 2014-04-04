@@ -2,14 +2,12 @@ import threading
 from time import sleep
 
 mutex = threading.Semaphore(1)
-mutex2 = threading.Semaphore(1)
-boarders = 0
-unboarders = 0
+boarded = 0
 boardQueue = threading.Semaphore(0)
 unboardQueue = threading.Semaphore(0)
-allAboard = threading.Semaphore(0)
-allAshore = threading.Semaphore(0)
+canEnterOrLeave = threading.Semaphore(0)
 size = 5
+
 class Passenger(threading.Thread):
     """docstring for Passenger"""
     def __init__(self, id):
@@ -17,28 +15,25 @@ class Passenger(threading.Thread):
         self.id = id
 
     def run(self):
-        global boarders
-        global unboarders
+        global boarded
         global size
         boardQueue.acquire()
         self.board()
         
         mutex.acquire()
-        boarders += 1
-        if boarders == size:
-            allAboard.release()
-            boarders = 0
+        boarded += 1
+        if boarded == size:
+            canEnterOrLeave.release()
         mutex.release()
         
         unboardQueue.acquire()
         self.unboard()
         
-        mutex2.acquire()
-        unboarders += 1
-        if unboarders == size:
-            allAshore.release()
-            unboarders = 0
-        mutex2.release()
+        mutex.acquire()
+        boarded -= 1
+        if boarded == 0:
+            canEnterOrLeave.release()
+        mutex.release()
         return 0
 
     def board(self):
@@ -60,7 +55,7 @@ class Car(threading.Thread):
                 boardQueue.release()
                 sleep(1)
 
-            allAboard.acquire()
+            canEnterOrLeave.acquire()
     
             self.allAboard()
             sleep(1)
@@ -72,7 +67,7 @@ class Car(threading.Thread):
             for x in range(0,size):
                 unboardQueue.release()
                 sleep(1)
-            allAshore.acquire()
+            canEnterOrLeave.acquire()
 
             self.allAshore()
     
