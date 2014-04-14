@@ -1,16 +1,21 @@
--Desafio da Montanha Russa
+-- Desafio da Montanha Russa --
 
-Do "Little Book of Semaphores":
+Retirado do "Little Book of Semaphores":
 
-Suppose there are n passenger threads and a car thread. The
-passengers repeatedly wait to take rides in the car, which can hold
-C passengers, where C < n. The car can go around the tracks only
-when it is full.
-Here are some additional details:
-? Passengers should invoke board and unboard.
-? The car should invoke load, run and unload.
-? Passengers cannot board until the car has invoked load
-? The car cannot depart until C passengers have boarded.
-? Passengers cannot unboard until the car has invoked unload.
-Puzzle: Write code for the passengers and car that enforces these constraints
+"Suponha que haja n threads de passageiros e uma thread de carrinho.
+Os passageiros esperam repetidamente para andar no carrinho, 
+que suporta C passageiros, onde C < n. O carrinho pode andar apenas 
+quando estiver cheio."
 
+Escolhemos o problema pelo seu contexto incomum (embora o mesmo possa
+ser dito de muitos dos problemas do livro). Nossa solucao gira em torno
+de semaforos para a entrada e saida de passageiros no carro.
+
+Parametros suportados:
+- Quantidade de lugares no carrinho
+- Quantidade de passageiros (podem ser adicionados a qualquer momento)
+- Passageiros retornam para a fila ou nao
+
+Desenvolvido por:
+Gustavo de Mello Crivelli  - RA 136008
+Vinicius Andrade Frederico - RA 139223
