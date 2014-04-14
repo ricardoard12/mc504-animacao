@@ -3,6 +3,7 @@ import os
 from time import sleep
 
 mutex = threading.Semaphore(1)
+mutexCreate = threading.Semaphore(1)
 id = 0
 boarded = 0
 totalBoarded = 0
@@ -49,6 +50,8 @@ class Passenger(threading.Thread):
         self.id = id
 
     def run(self):
+        animation(0,-1,0)
+        mutexCreate.release()
         self.board()
         self.unboard()
         return 0
@@ -155,9 +158,9 @@ car.daemon = True
 car.start()
 
 while True:
+    mutexCreate.acquire()
     input("")
     id+= 1
-    animation(0,-1,0)
     x = Passenger(id)
     x.daemon = True
     x.start()
