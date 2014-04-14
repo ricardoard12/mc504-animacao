@@ -100,7 +100,7 @@ class Car(threading.Thread):
     def run(self):
         global cheio
         while True:
-            
+            print("Podem entrar!")
             self.load()
 			
             sleep(1)
@@ -108,12 +108,15 @@ class Car(threading.Thread):
             animation(0,-1,0)
             sleep(1)
             
+            print("Iniciando brinquedo")
             self.go()
 
             sleep(1)
             cheio = 0
-			
+            print("Podem sair!")
+            animation(0,-1,0)
             self.unload()
+            animation(0,-1,0)
 
     def load(self):
         for x in range(0,size):
